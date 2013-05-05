@@ -47,6 +47,8 @@ execute "enable app site" do
   command "a2ensite app.conf"
 end
 
+
+# set-up https
 execute "add mod ssl" do
   command "a2enmod ssl"
 end
@@ -56,6 +58,17 @@ FileUtils.mkdir_p '/etc/apache2/ssl'
 execute "create cert" do
   command "openssl req -new -x509 -subj \"/C=/ST=/L=/O=/CN=/L=/\" -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key"
 end 
+
+
+# install PHPUnit
+execute "config pear" do
+  command "/usr/local/zend/bin/pear config-set auto_discover 1"
+end
+
+execute "install PHPUnit" do  
+  command "/usr/local/zend/bin/pear install pear.phpunit.de/PHPUnit"
+  not_if "phpunit --version | grep PHPUnit"
+end
 
 
 service "apache2" do
