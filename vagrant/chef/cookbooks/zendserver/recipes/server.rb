@@ -33,8 +33,8 @@ cookbook_file "/etc/profile.d/zend-server.sh" do
   mode "0644"
 end
 
-cookbook_file "/etc/apache2/sites-available/app.conf" do
-  source "app.conf"
+cookbook_file "/etc/apache2/sites-available/vagrant-apache.conf" do
+  source "vagrant-apache.conf"
   group "root"
   owner "root"
 end
@@ -44,7 +44,7 @@ execute "disable default site" do
 end
 
 execute "enable app site" do
-  command "a2ensite app.conf"
+  command "a2ensite vagrant-apache.conf"
 end
 
 
@@ -68,6 +68,26 @@ end
 execute "install PHPUnit" do  
   command "/usr/local/zend/bin/pear install pear.phpunit.de/PHPUnit"
   not_if "phpunit --version | grep PHPUnit"
+end
+
+
+# update freetds
+template "/etc/freetds/freetds.conf" do
+  source "freetds.erb"
+  owner "root"
+  group "root"
+  variables({
+    :version => node[:freetds][:version],
+    :client_charset => node[:freetds][:client_charset]
+  })
+end
+
+
+# edit php.ini
+template "/usr/local/zend/etc/php.ini" do
+  source "php.ini.erb"
+  owner "root"
+  group "root"
 end
 
 
