@@ -91,6 +91,14 @@ template "/usr/local/zend/etc/php.ini" do
 end
 
 
+# add mssql php extension
+template "/usr/local/zend/etc/conf.d/mssql.ini" do
+  source "mssql.ini.erb"
+  owner "root"
+  group "root"
+end
+
+
 service "apache2" do
   action :restart
 end
