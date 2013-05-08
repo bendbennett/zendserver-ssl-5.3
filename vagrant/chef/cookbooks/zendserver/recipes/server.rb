@@ -91,8 +91,14 @@ template "/usr/local/zend/etc/php.ini" do
 end
 
 
-service "apache2" do
-  action :restart
+# edit mssql.ini
+template "/usr/local/zend/etc/conf.d/mssql.ini" do
+  source "mssql.ini.erb"
+  owner "root"
+  group "zend"
 end
 
 
+service "apache2" do
+  action :restart
+end
