@@ -99,6 +99,25 @@ template "/usr/local/zend/etc/conf.d/mssql.ini" do
 end
 
 
+# getting ZF 1.10.5 (ZF 1.12 not backwards compatible for ZendForms)
+remote_file "/tmp/ZendFramework-1.10.5.tar.gz" do
+  user "vagrant"
+  source "https://packages.zendframework.com/releases/ZendFramework-1.10.5/ZendFramework-1.10.5.tar.gz"
+  not_if "ls -la /tmp | grep ZendFramework-1.10.5.tar.gz"
+end
+
+execute "extract" do
+  command "tar zxf /tmp/ZendFramework-1.10.5.tar.gz"
+  cwd "/tmp"
+
+end
+
+execute "move" do
+  command "mv /tmp/ZendFramework-1.10.5 /usr/local/zend/share"
+  not_if "ls -la /usr/local/zend/share | grep ZendFramework-1.10.5"
+end
+
+
 service "apache2" do
   action :restart
 end

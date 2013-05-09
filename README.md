@@ -4,7 +4,7 @@
 
 This Vagrant setup configures an Ubuntu 12.04 (Precise) 64-bit box with
 
-* Zend Server 6
+* Zend Server 6 (Zend Framework 1.10.5)
 * PHP 5.4
 * SSL
 * PHPUnit
@@ -31,6 +31,10 @@ Apache is configured with the MPM-ITK module with document root set to `/home/va
 ## Attributes
 
 Defaults for `freetds.conf` settings and `php.ini` are located within `attributes/default.rb`
+
+## Zend Framework Version
+
+Pulling down ZF 1.10.5 and setting that as default ZF library
 
 ## Chrome on Mountain Lion (OS-X 10.8.3)
 
