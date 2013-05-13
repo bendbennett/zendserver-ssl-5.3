@@ -76,6 +76,7 @@ template "/etc/freetds/freetds.conf" do
   source "freetds.erb"
   owner "root"
   group "root"
+  mode "0644"
   variables({
     :version => node[:freetds][:version],
     :client_charset => node[:freetds][:client_charset]
