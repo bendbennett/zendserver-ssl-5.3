@@ -70,6 +70,36 @@ execute "install PHPUnit" do
   not_if "phpunit --version | grep PHPUnit"
 end
 
+# edit pcntl.ini (required for PHPUnit)
+template "/usr/local/zend/etc/conf.d/pcntl.ini" do
+  source "pcntl.ini.erb"
+  owner "root"
+  group "zend"
+end
+
+# install invoker
+execute "install PHPUnit Invoker" do  
+  command "/usr/local/zend/bin/pear install pear install phpunit/PHP_Invoker"
+  not_if "pear list -c phpunit | grep PHP_Invoker"
+end
+
+# install selenium
+execute "install PHPUnit Selenium" do  
+  command "/usr/local/zend/bin/pear install pear install phpunit/PHPUnit_Selenium"
+  not_if "pear list -c phpunit | grep PHPUnit_Selenium"
+end
+
+# install story test case 
+execute "install PHPUnit Story" do  
+  command "/usr/local/zend/bin/pear install pear install phpunit/PHPUnit_Story"
+  not_if "pear list -c phpunit | grep PHPUnit_Story"
+end
+
+# install dbunit 
+execute "install DbUnit" do  
+  command "/usr/local/zend/bin/pear install phpunit/DbUnit"
+    not_if "pear list -c phpunit | grep DbUnit"
+end
 
 # update freetds
 template "/etc/freetds/freetds.conf" do
@@ -110,7 +140,6 @@ end
 execute "extract" do
   command "tar zxf /tmp/ZendFramework-1.10.5.tar.gz"
   cwd "/tmp"
-
 end
 
 execute "move" do
