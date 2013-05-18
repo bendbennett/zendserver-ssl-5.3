@@ -59,7 +59,6 @@ execute "create cert" do
   command "openssl req -new -x509 -subj \"/C=/ST=/L=/O=/CN=/L=/\" -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key"
 end 
 
-
 # install PHPUnit
 execute "config pear" do
   command "/usr/local/zend/bin/pear config-set auto_discover 1"
@@ -75,6 +74,7 @@ template "/usr/local/zend/etc/conf.d/pcntl.ini" do
   source "pcntl.ini.erb"
   owner "root"
   group "zend"
+  mode "0644"
 end
 
 # install invoker
@@ -119,6 +119,7 @@ template "/usr/local/zend/etc/php.ini" do
   source "php.ini.erb"
   owner "root"
   group "root"
+  mode "0644"
 end
 
 
@@ -127,6 +128,7 @@ template "/usr/local/zend/etc/conf.d/mssql.ini" do
   source "mssql.ini.erb"
   owner "root"
   group "zend"
+  mode "0644"
 end
 
 
