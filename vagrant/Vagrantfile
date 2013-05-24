@@ -5,15 +5,31 @@ Vagrant::Config.run do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  config.vm.forward_port 80, 8080
-  config.vm.forward_port 443, 8443
-  config.vm.forward_port 10081, 10081
-  config.vm.forward_port 10082, 10082
+  config.vm.network :hostonly, "10.0.0.8"
 
   config.vm.share_folder "v-web-app", "/home/vagrant/html", "/var/www/html"
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "chef/cookbooks"
+    
+    # Following proxy set-up is lifted from 
+    # http://blog.melard.fr/post/36590319134/how-to-setup-a-http-proxy-in-chef-environment
+    #chef.log_level = ENV['CHEF_LOG'] || "info"
+
+    # Load the proxy cookbook first!
+    #chef.add_recipe "proxy"
+    
+    # Load other recipes...
+
+    #specific config
+    #chef.json = {
+     # :proxy => {
+      #  :http_proxy => "http://mainproxy.nottingham.ac.uk:8080",
+      #},
+        # Load other configuration...
+    #}
+    # end of proxy set-up
+
     chef.roles_path = "chef/roles"
     chef.add_role "server"
   end
