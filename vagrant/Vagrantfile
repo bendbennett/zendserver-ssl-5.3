@@ -7,7 +7,7 @@ Vagrant::Config.run do |config|
 
   config.vm.network :hostonly, "10.0.0.8"
 
-  config.vm.share_folder "v-web-app", "/home/vagrant/html", "/var/www/html"
+  config.vm.share_folder "v-web-app", "/home/vagrant/html", "/var/www/html", :owner => "www-data", :group => "www-data"
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "chef/cookbooks"
