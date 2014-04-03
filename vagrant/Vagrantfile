@@ -9,8 +9,8 @@ Vagrant::Config.run do |config|
 
   config.vm.share_folder "v-web-app", "/home/vagrant/html", "/var/www/html", :owner => "www-data", :group => "www-data"
 
-   config.vm.provision :shell, :inline => "echo 'export http_proxy=http://mainproxy.nottingham.ac.uk:8080' >> /etc/profile.d/proxy.sh"
-   config.vm.provision :shell, :inline => "echo 'export https_proxy=http://mainproxy.nottingham.ac.uk:8080' >> /etc/profile.d/proxy.sh"
+#   config.vm.provision :shell, :inline => "echo 'export http_proxy=http://mainproxy.nottingham.ac.uk:8080' >> /etc/profile.d/proxy.sh"
+#   config.vm.provision :shell, :inline => "echo 'export https_proxy=http://mainproxy.nottingham.ac.uk:8080' >> /etc/profile.d/proxy.sh"
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "chef/cookbooks"

@@ -65,7 +65,7 @@ execute "config pear" do
 end
 
 execute "install PHPUnit" do  
-  command "/usr/local/zend/bin/pear install pear.phpunit.de/PHPUnit"
+  command "/usr/local/zend/bin/pear install --alldeps pear.phpunit.de/PHPUnit-3.7.27"
   not_if "phpunit --version | grep PHPUnit"
 end
 

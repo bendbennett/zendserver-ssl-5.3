@@ -1,1 +1,9 @@
 .vagrant
+vagrant/.idea/.name
+vagrant/.idea/encodings.xml
+vagrant/.idea/misc.xml
+vagrant/.idea/modules.xml
+vagrant/.idea/scopes/scope_settings.xml
+vagrant/.idea/vagrant.iml
+vagrant/.idea/vcs.xml
+vagrant/.idea/workspace.xml
