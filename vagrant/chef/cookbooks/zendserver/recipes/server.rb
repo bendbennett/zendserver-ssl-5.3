@@ -12,7 +12,7 @@ execute "update apt" do
   command "apt-get update -q -y"
 end
 
-package "zend-server-php-5.4"
+package "zend-server-php-5.3"
 package "apache2-mpm-itk"
 package "curl"
 
@@ -59,47 +59,6 @@ execute "create cert" do
   command "openssl req -new -x509 -subj \"/C=/ST=/L=/O=/CN=/L=/\" -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key"
 end 
 
-# install PHPUnit
-execute "config pear" do
-  command "/usr/local/zend/bin/pear config-set auto_discover 1"
-end
-
-execute "install PHPUnit" do  
-  command "/usr/local/zend/bin/pear install --alldeps pear.phpunit.de/PHPUnit-3.7.27"
-  not_if "phpunit --version | grep PHPUnit"
-end
-
-# edit pcntl.ini (required for PHPUnit)
-template "/usr/local/zend/etc/conf.d/pcntl.ini" do
-  source "pcntl.ini.erb"
-  owner "root"
-  group "zend"
-  mode "0644"
-end
-
-# install invoker
-execute "install PHPUnit Invoker" do  
-  command "/usr/local/zend/bin/pear install pear install phpunit/PHP_Invoker"
-  not_if "pear list -c phpunit | grep PHP_Invoker"
-end
-
-# install selenium
-execute "install PHPUnit Selenium" do  
-  command "/usr/local/zend/bin/pear install pear install phpunit/PHPUnit_Selenium"
-  not_if "pear list -c phpunit | grep PHPUnit_Selenium"
-end
-
-# install story test case 
-execute "install PHPUnit Story" do  
-  command "/usr/local/zend/bin/pear install pear install phpunit/PHPUnit_Story"
-  not_if "pear list -c phpunit | grep PHPUnit_Story"
-end
-
-# install dbunit 
-execute "install DbUnit" do  
-  command "/usr/local/zend/bin/pear install phpunit/DbUnit"
-    not_if "pear list -c phpunit | grep DbUnit"
-end
 
 # update freetds
 template "/etc/freetds/freetds.conf" do
@@ -129,24 +88,6 @@ template "/usr/local/zend/etc/conf.d/mssql.ini" do
   owner "root"
   group "zend"
   mode "0644"
-end
-
-
-# getting ZF 1.10.5 (ZF 1.12 not backwards compatible for ZendForms)
-remote_file "/tmp/ZendFramework-1.10.5.tar.gz" do
-  user "vagrant"
-  source "https://packages.zendframework.com/releases/ZendFramework-1.10.5/ZendFramework-1.10.5.tar.gz"
-  not_if "ls -la /tmp | grep ZendFramework-1.10.5.tar.gz"
-end
-
-execute "extract" do
-  command "tar zxf /tmp/ZendFramework-1.10.5.tar.gz"
-  cwd "/tmp"
-end
-
-execute "move" do
-  command "mv /tmp/ZendFramework-1.10.5 /usr/local/zend/share"
-  not_if "ls -la /usr/local/zend/share | grep ZendFramework-1.10.5"
 end
 
 
